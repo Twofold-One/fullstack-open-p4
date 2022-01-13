@@ -9,7 +9,6 @@ import mongoose from 'mongoose';
 
 logger.info('connecting to', config.MONGODB_URI);
 const url = config.MONGODB_URI ? config.MONGODB_URI : '';
-
 mongoose
     .connect(url)
     .then(() => {
