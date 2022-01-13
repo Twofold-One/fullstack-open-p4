@@ -7,17 +7,23 @@
         "tsc": "tsc",
         "dev": "nodemon index.ts",
         "start": "node build/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest --verbose"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@babel/core": "^7.16.7",
+        "@babel/preset-env": "^7.16.8",
+        "@babel/preset-typescript": "^7.16.7",
         "@types/cors": "^2.8.12",
         "@types/express": "^4.17.13",
+        "@types/jest": "^27.4.0",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
         "@typescript-eslint/parser": "^5.9.1",
+        "babel-jest": "^27.4.6",
         "eslint": "^8.6.0",
         "eslint-config-prettier": "^8.3.0",
+        "jest": "^27.4.7",
         "nodemon": "^2.0.15",
         "prettier": "^2.5.1",
         "ts-node": "^10.4.0",
@@ -28,5 +34,8 @@
         "dotenv": "^11.0.0",
         "express": "^4.17.2",
         "mongoose": "^6.1.6"
+    },
+    "jest": {
+        "testEnvironment": "node"
     }
 }
