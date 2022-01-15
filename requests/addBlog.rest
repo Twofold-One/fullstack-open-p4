@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Dev Blog Test Refactored 2",
-    "author": "Person Test Refactored 2",
+    "title": "Dev Blog Test Delete",
+    "author": "Person Test",
     "url": "dev.to",
     "likes": 15
 }
