@@ -30,10 +30,18 @@ describe('when there is iniially blogs saved', () => {
         expect(response.body).toHaveLength(helper.InitialBlogs.length);
     });
 
-    test('specific note is in the returned blogs', async () => {
+    test('specific blog is in the returned blogs', async () => {
         const response = await api.get('/api/blogs');
         const content = response.body.map((b: { author: string }) => b.author);
         expect(content).toContain('Person Test 2');
+    });
+    test('returns blog by id', async () => {
+        const blogs = await helper.blogsInDb();
+        const blogToReturn = blogs[0];
+        const blogToReturnId = blogToReturn.id;
+
+        const response = await api.get(`/api/blogs/${blogToReturnId}`);
+        expect(response.body).toEqual(blogToReturn);
     });
 });
 
@@ -68,6 +76,36 @@ describe('addition of blog', () => {
         const blogsAtEnd = await helper.blogsInDb();
 
         expect(blogsAtEnd).toHaveLength(helper.InitialBlogs.length);
+    });
+});
+
+describe('delete blog', () => {
+    test('blog is actually deleted', async () => {
+        const blogsAtStart = await helper.blogsInDb();
+        const blogToDelete = blogsAtStart[2];
+        const blogToDeleteId = blogToDelete.id;
+
+        await api.delete(`/api/blogs/${blogToDeleteId}`).expect(204);
+
+        const blogsAtEnd = await helper.blogsInDb();
+        expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1);
+    });
+});
+
+describe('update blog', () => {
+    test('blog likes count is updated', async () => {
+        const blogs = await helper.blogsInDb();
+        const blogToUpdate = blogs[3];
+        const blogToUpdateId = blogToUpdate.id;
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        await api.put(`/api/blogs/${blogToUpdateId}`).send({
+            ...blogToUpdate,
+            likes: blogToUpdate.likes + 10,
+        });
+        const blogsAfterUpdate = await helper.blogsInDb();
+        const updatedBlog = blogsAfterUpdate[3];
+        expect(updatedBlog.likes).toBe(blogToUpdate.likes + 10);
     });
 });
 

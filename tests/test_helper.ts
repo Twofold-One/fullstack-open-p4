@@ -17,6 +17,18 @@ const InitialBlogs: BlogType[] = [
         url: 'dev.to',
         likes: 15,
     },
+    {
+        title: 'Dev Blog Delete Test',
+        author: 'Person Delete',
+        url: 'dev.to',
+        likes: 10,
+    },
+    {
+        title: 'Dev Blog Update Test',
+        author: 'Person Update Test',
+        url: 'dev.to',
+        likes: 10,
+    },
 ];
 
 const nonExistingId = async () => {
