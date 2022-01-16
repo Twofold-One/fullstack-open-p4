@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Blog from '../models/blog';
+import User from '../models/user';
 import { Blog as BlogType } from '../types';
 
 const InitialBlogs: BlogType[] = [
@@ -49,8 +50,14 @@ const blogsInDb = async () => {
     return blogs.map((blog) => blog.toJSON());
 };
 
+const usersInDb = async () => {
+    const users = await User.find({});
+    return users.map((user) => user.toJSON());
+};
+
 export default {
     InitialBlogs,
     nonExistingId,
     blogsInDb,
+    usersInDb,
 };

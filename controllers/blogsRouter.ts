@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 const blogsRouter = express.Router();
 import Blog from '../models/blog';
+import User from '../models/user';
 
 blogsRouter.get('/', async (_req, res) => {
     const blogs = await Blog.find({});
@@ -20,9 +22,23 @@ blogsRouter.get('/:id', async (req, res) => {
 });
 
 blogsRouter.post('/', async (req, res) => {
-    const blog = new Blog(req.body);
+    const body = req.body;
+
+    const user = await User.findById(body.userId);
+
+    const blog = new Blog({
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes,
+        user: user ? user._id : 'unknown',
+    });
+
+    console.log(blog);
 
     const savedBlog = await blog.save();
+    user ? (user.blogs = user.blogs.concat(savedBlog._id)) : null;
+    user ? await user.save() : null;
     res.json(savedBlog);
 });
 
@@ -38,6 +54,7 @@ blogsRouter.put('/:id', async (req, res) => {
         ...body,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
         new: true,
     });

@@ -4,6 +4,7 @@ import 'express-async-errors';
 const app = express();
 import cors from 'cors';
 import blogsRouter from './controllers/blogsRouter';
+import usersRouter from './controllers/usersRouter';
 import middleware from './utils/middleware';
 import logger from './utils/logger';
 import mongoose from 'mongoose';
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(middleware.requestLogger);
 
 app.use('/api/blogs', blogsRouter);
+app.use('/api/users', usersRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
