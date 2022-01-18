@@ -40,7 +40,6 @@ blogsRouter.post('/', async (req, res) => {
     const body = req.body;
 
     const token = getTokenFrom(req);
-    console.log(`token is ${token}`);
     const processSecret = process.env.SECRET;
 
     if (!(token && processSecret)) {
@@ -49,9 +48,6 @@ blogsRouter.post('/', async (req, res) => {
         });
     }
     const decodedToken: any = jwt.verify(token, processSecret);
-    console.log(
-        `decoded token is ${decodedToken} and it's id: ${decodedToken.id}`
-    );
     if (!decodedToken.id) {
         return res.status(401).json({ error: 'token missing or invalid' });
     }
@@ -65,8 +61,6 @@ blogsRouter.post('/', async (req, res) => {
         user: user ? user._id : 'unknown',
     });
 
-    console.log(blog);
-
     const savedBlog = await blog.save();
     user ? (user.blogs = user.blogs.concat(savedBlog._id)) : null;
     user ? await user.save() : null;
@@ -74,8 +68,37 @@ blogsRouter.post('/', async (req, res) => {
 });
 
 blogsRouter.delete('/:id', async (req, res) => {
+    const token = getTokenFrom(req);
+    const processSecret = process.env.SECRET;
+
+    if (!(token && processSecret)) {
+        return res.send(500).json({
+            error: 'null token or no secret',
+        });
+    }
+    const decodedToken: any = jwt.verify(token, processSecret);
+
+    if (!decodedToken.id) {
+        return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const user = await User.findById(decodedToken.id);
+
+    const blog = await Blog.findById(req.params.id);
+
+    if (!(blog && user)) {
+        return res.status(500).json({
+            error: 'no blog or user',
+        });
+    } else {
+        if (!(blog.user.toString() === user._id.toString())) {
+            return res.status(500).json({
+                error: 'no user with such id',
+            });
+        }
+    }
+    // TODO: make deleted blog be removed from useres blogs
     await Blog.findByIdAndDelete(req.params.id);
-    res.status(204).end();
+    return res.status(204).end();
 });
 
 blogsRouter.put('/:id', async (req, res) => {

@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyMiIsImlkIjoiNjFlNTk2YmI4OWQyNWQzOGE2MWQ3MDgxIiwiaWF0IjoxNjQyNDM2ODM3fQ.IqwbLsu2ayNKNQIY57ZEYGYod0ZOi5yHVmA2h1uEwkA
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3RlciIsImlkIjoiNjFlNmUyNzAwMGRhMmQ3MWZiOGJjYzdjIiwiaWF0IjoxNjQyNTIxMjI1LCJleHAiOjE2NDI1MjQ4MjV9.zB8ugobQQ-4bUfYhRtMOWWrsD-DNcN1GPXny42WaK2g
 
 {
-    "title": "auhorization tester 2 ",
-    "author": "Person Tester 2",
+    "title": "Blog to delete",
+    "author": "Yea",
     "url": "proger.io",
     "likes": 10
 }

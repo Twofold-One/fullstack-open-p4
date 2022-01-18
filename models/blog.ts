@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import mongoose from 'mongoose';
+import { BlogM } from '../types';
 
-const blogSchema = new mongoose.Schema({
+const blogSchema = new mongoose.Schema<BlogM>({
     title: {
         type: String,
         required: true,
